@@ -13,9 +13,9 @@ First code for the LoRaHAM Pi hardware | https://www.loraham.de/shop
 
 Need follow parts on the Raspberry Pi image:
 
-https://pypi.org/project/RPi.GPIO/
-https://pypi.org/project/spidev/
-https://pypi.org/project/pyLoRa/
+[https://pypi.org/project/RPi.GPIO/](https://pypi.org/project/RPi.GPIO/)
+[https://pypi.org/project/spidev/](https://pypi.org/project/spidev/)
+[https://pypi.org/project/pyLoRa/](https://pypi.org/project/pyLoRa/)
 
 In order to install spidev download the source code and run setup.py manually:
 ```bash
