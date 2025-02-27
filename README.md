@@ -79,7 +79,9 @@ Erster Code für die LoRaHAM Pi Hardware | https://www.loraham.de/shop
 Folgende Teile werden für das Raspberry Pi Image benötigt:
 
 https://pypi.org/project/RPi.GPIO/
+
 https://pypi.org/project/spidev/
+
 https://pypi.org/project/pyLoRa/
 
 Um spidev zu installieren, laden Sie den Quellcode herunter und führen Sie setup.py manuell aus:
