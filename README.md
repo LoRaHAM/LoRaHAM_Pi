@@ -4,7 +4,7 @@
 
 LoRaHAM Pi is a Raspberry Pi hardware upgrade project for radio amateurs to enable LoRa with high transmission power and thus long range on a single board computer.
 
-First code for the LoRaHAM Pi hardware | https://www.loraham.de/shop
+First code for the LoRaHAM Pi hardware | https://www.loraham.de/produkt/loraham-pi-now/
 
 ![LoRaHAM_Pi](https://github.com/LoRaHAM/LoRaHAM_Pi/blob/main/LoRaHAM_P1_3.jpg?raw=true)
 
@@ -69,7 +69,7 @@ For radio amateur or laboratory use only.
 
 LoRaHAM Pi ist ein Raspberry Pi Hardware-Upgrade-Projekt für Funkamateure, um LoRa mit hoher Sendeleistung und damit großer Reichweite auf einem Einplatinencomputer zu ermöglichen.
 
-Erster Code für die LoRaHAM Pi Hardware | https://www.loraham.de/shop
+Erster Code für die LoRaHAM Pi Hardware | https://www.loraham.de/produkt/loraham-pi-now/
 
 ![LoRaHAM_Pi](https://github.com/LoRaHAM/LoRaHAM_Pi/blob/main/LoRaHAM_P1_3.jpg?raw=true)
 
