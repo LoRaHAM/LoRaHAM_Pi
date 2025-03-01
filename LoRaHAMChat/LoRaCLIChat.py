@@ -20,9 +20,8 @@ from termcolor import colored
 # Du kannst dann direkt Nachrichten tippen und mit eingabetaste versenden. Der passende APRS-Header wird dann hinzugefügt
 
 # Text, den du hinzufügen möchtest
-#mein_text = "DC2WA>APRS,WIDE1-1::ALL      :"
-mein_text = "DC2WA>APRS,WIDE1-1::DF2FK    :"
-#mein_text = "DC2WA>APRS,WIDE1-1::DL6JOE-R :"
+mein_text = "DC2WA>APRS,WIDE1-1::ALL      :"
+#mein_text = "DC2WA>APRS,WIDE1-1::DF2FK    :"
 #mein_text = "DC2WA>APRS,WIDE1-1::DC2WA-15 :"
 #mein_text = "DC2WA>APRS,WIDE1-1::DB0ARD-10:"
 
