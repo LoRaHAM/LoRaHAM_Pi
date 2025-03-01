@@ -7,6 +7,18 @@ from SX127x.board_config import BOARD
 import os
 from termcolor import colored
 
+# English:
+# Here you can add APRS-specific information.
+# This turns it into a real chat.
+# Change "ALL" to a target callsign such as DC2WA to address the recipient directly. 
+# You can then type messages directly and send them with the enter key. The appropriate APRS header will then be added
+
+# Deutsch:
+# Hier kannst du APRS-Spezifische Infos hinzufügen.
+# Dadurch wird es zu einemechten Chat.
+# Ändere "ALL" zu einem Zielrufzeichen wie z.B. DC2WA um den Empfänger direkt zu adressieren. 
+# Du kannst dann direkt Nachrichten tippen und mit eingabetaste versenden. Der passende APRS-Header wird dann hinzugefügt
+
 # Text, den du hinzufügen möchtest
 #mein_text = "DC2WA>APRS,WIDE1-1::ALL      :"
 mein_text = "DC2WA>APRS,WIDE1-1::DF2FK    :"
