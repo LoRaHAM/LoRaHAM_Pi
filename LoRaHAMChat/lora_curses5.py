@@ -7,7 +7,7 @@ from termcolor import colored
 import re
 
 # Text, den du hinzufügen möchtest. Dadurch ist das Chatten direkt möglich.
-mein_text = "DC2WA>APRS,WIDE1-1::" # Rufzeichenziel wird angehängt und formatiert, da es immer 9 Zeichen haben muss
+mein_text = "DL0xxx>APRS,WIDE1-1::" # Rufzeichenziel wird angehängt und formatiert, da es immer 9 Zeichen haben muss
 
 
 # LoRa initialisieren
