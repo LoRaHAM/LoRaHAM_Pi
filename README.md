@@ -6,6 +6,8 @@ LoRaHAM Pi is a Raspberry Pi hardware upgrade project for radio amateurs to enab
 
 First code for the LoRaHAM Pi hardware | https://www.loraham.de/produkt/loraham-pi-now/
 
+Raspberry Pi 3 Image for Meshtastic (8 GB SD-Card): [Meshtastic 433 MHz 1 Watt](https://www.loraham.de/downloads/Meshtastic_433_LoRaHAM_Pi.img)
+
 ![LoRaHAM_Pi](https://github.com/LoRaHAM/LoRaHAM_Pi/blob/main/LoRaHAM_P1_3.jpg?raw=true)
 
 * Raspberry Pi 3/4/5
