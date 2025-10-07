@@ -24,11 +24,8 @@
 
 import sys
 from time import sleep
-from SX127x.LoRa import *
+from SX127x.LoRa import MODE, LoRa868 as LoRa
 from SX127x.LoRaArgumentParser import LoRaArgumentParser
-from SX127x.board_config import BOARD
-
-BOARD.setup()
 
 parser = LoRaArgumentParser("A simple LoRa beacon")
 parser.add_argument('--single', '-S', dest='single', default=False, action="store_true", help="Single transmission")
@@ -62,10 +59,10 @@ class LoRaBeacon(LoRa):
         if args.single:
             print
             sys.exit(0)
-        BOARD.led_off()
+        self.board.led_off()
         sleep(args.wait)
         self.write_payload([0x0f])
-        BOARD.led_on()
+        self.board.led_on()
         self.set_mode(MODE.TX)
 
     def on_cad_done(self):
@@ -92,7 +89,7 @@ class LoRaBeacon(LoRa):
         global args
         sys.stdout.write("\rstart")
         self.tx_counter = 0
-        BOARD.led_on()
+        self.board.led_on()
         self.write_payload([0x0f])
         self.set_mode(MODE.TX)
         while True:
@@ -135,4 +132,3 @@ finally:
     print("")
     lora.set_mode(MODE.SLEEP)
     print(lora)
-    BOARD.teardown()

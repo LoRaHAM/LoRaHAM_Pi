@@ -21,32 +21,32 @@
 # You should have received a copy of the GNU General Public License along with pySX127.  If not, see
 # <http://www.gnu.org/licenses/>.
 
-
+import sys
 from time import sleep
-from SX127x.LoRa import *
+from SX127x.LoRa import MODE, LoRa868 as LoRa 
 from SX127x.LoRaArgumentParser import LoRaArgumentParser
 from SX127x.board_config import BOARD
-
-BOARD.setup()
 
 parser = LoRaArgumentParser("Continous LoRa receiver.")
 
 
 class LoRaRcvCont(LoRa):
+
     def __init__(self, verbose=False):
         super(LoRaRcvCont, self).__init__(verbose)
+
         self.set_mode(MODE.SLEEP)
         self.set_dio_mapping([0] * 6)
 
     def on_rx_done(self):
-        BOARD.led_on()
+        self.board.led_on()
         print("\nRxDone")
         self.clear_irq_flags(RxDone=1)
         payload = self.read_payload(nocheck=True)
         print(bytes(payload).decode("utf-8",'ignore'))
         self.set_mode(MODE.SLEEP)
         self.reset_ptr_rx()
-        BOARD.led_off()
+        self.board.led_off()
         self.set_mode(MODE.RXCONT)
 
     def on_tx_done(self):
@@ -115,4 +115,3 @@ finally:
     print("")
     lora.set_mode(MODE.SLEEP)
     print(lora)
-    BOARD.teardown()

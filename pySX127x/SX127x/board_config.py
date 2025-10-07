@@ -1,4 +1,4 @@
-""" Defines the __class__.class that contains the board pin mappings and RF module HF/LF info. """
+""" Defines the BOARD class that contains the board pin mappings and RF module HF/LF info. """
 # -*- coding: utf-8 -*-
 
 # Copyright 2015-2018 Mayer Analytics Ltd. and Rui Silva
@@ -49,7 +49,7 @@ class BOARD:
             # low band (called band 1&2) are 137-175 and 410-525
             # high band (called band 3) is 862-1020
             self.low_band = True
-        else:
+        elif freq == "868":
             # Note that the BCOM numbering for the GPIOs is used.
             self.DIO0 = 16
             self.DIO1 = 12
@@ -67,6 +67,8 @@ class BOARD:
             # low band (called band 1&2) are 137-175 and 410-525
             # high band (called band 3) is 862-1020
             self.low_band = False
+        else:
+            raise ValueError("Frequency must be '433' or '868'")
 
         # Configure the Raspberry GPIOs
         GPIO.setmode(GPIO.BCM)
@@ -78,28 +80,22 @@ class BOARD:
         for gpio_pin in [self.DIO0, self.DIO1, self.DIO2, self.DIO3]:
             GPIO.setup(gpio_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
+        # Configure the SPI device
+        self.spi = spidev.SpiDev()
+        self.spi.open(self.SPI_BUS, self.SPI_CS)
+        self.spi.max_speed_hz = 5000000    # SX127x can go up to 10MHz, pick half that to be safe
+ 
         # blink 2 times to signal the is set up
         self.blink(.1, 2)
+
+    def __del__(self):
+        self.teardown()
 
     def teardown(self):
         """Cleanup GPIO and SpiDev"""
         if self.spi:
             self.spi.close()
         GPIO.cleanup()
-
-    def SpiDev(self):
-        """Init and return the SpiDev object
-        :return: SpiDev object
-        :param spi_bus: The RPi SPI bus to use: 0 or 1
-        :param spi_cs: The RPi SPI chip select to use: 0 or 1
-        :rtype: SpiDev
-        """
-        spi_bus = self.SPI_BUS
-        spi_cs = self.SPI_CS
-        self.spi = spidev.SpiDev()
-        self.spi.open(spi_bus, spi_cs)
-        self.spi.max_speed_hz = 5000000    # SX127x can go up to 10MHz, pick half that to be safe
-        return self.spi
 
     @staticmethod
     def add_event_detect(dio_number, callback):
