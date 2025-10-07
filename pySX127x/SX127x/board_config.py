@@ -1,4 +1,4 @@
-""" Defines the BOARD class that contains the board pin mappings and RF module HF/LF info. """
+""" Defines the __class__.class that contains the board pin mappings and RF module HF/LF info. """
 # -*- coding: utf-8 -*-
 
 # Copyright 2015-2018 Mayer Analytics Ltd. and Rui Silva
@@ -26,25 +26,24 @@ import spidev
 
 import time
 
-
-class BOARD:
+# 433MHz
+class BOARD_433():
     """ Board initialisation/teardown and pin configuration is kept here.
         Also, information about the RF module is kept here.
         This is the Raspberry Pi board with one LED and a Ra-02 Lora.
     """
     # Note that the BCOM numbering for the GPIOs is used.
-    DIO0 = 25   # RaspPi GPIO 4
-    DIO1 = 24   # RaspPi GPIO 17
-    DIO2 = 18   # RaspPi GPIO 18
-    DIO3 = 27   # RaspPi GPIO 27
-    RST  = 5   # RaspPi GPIO 22
-    LED  = 13   # RaspPi GPIO 13 connects to the LED and a resistor (1kohm or 330ohm)
-    #SWITCH = 4  # RaspPi GPIO 4 connects to a switch - not necessary
+    DIO0 = 25
+    DIO1 = 24
+    DIO2 = 23
+    DIO3 = 22
+    RST  = 5
+    LED  = 13
 
     # The spi object is kept here
     spi = None
-    SPI_BUS=0
-    SPI_CS=0
+    SPI_BUS = 0
+    SPI_CS = 0
     
     # tell pySX127x here whether the attached RF module uses low-band (RF*_LF pins) or high-band (RF*_HF pins).
     # low band (called band 1&2) are 137-175 and 410-525
@@ -58,23 +57,24 @@ class BOARD:
         """
         GPIO.setmode(GPIO.BCM)
         # LED
-        GPIO.setup(BOARD.LED, GPIO.OUT)
-        GPIO.setup(BOARD.RST, GPIO.OUT)
-        GPIO.output(BOARD.LED, 0)
-        GPIO.output(BOARD.RST, 1)
+        GPIO.setup(__class__.LED, GPIO.OUT)
+        GPIO.setup(__class__.RST, GPIO.OUT)
+        GPIO.output(__class__.LED, 0)
+        GPIO.output(__class__.RST, 1)
         # switch
-        #GPIO.setup(BOARD.SWITCH, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) 
+        #GPIO.setup(__class__.SWITCH, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) 
         # DIOx
-        for gpio_pin in [BOARD.DIO0, BOARD.DIO1, BOARD.DIO2, BOARD.DIO3]:
+        for gpio_pin in [__class__.DIO0, __class__.DIO1]:
             GPIO.setup(gpio_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         # blink 2 times to signal the board is set up
-        BOARD.blink(.1, 2)
+        __class__.blink(.1, 2)
 
     @staticmethod
     def teardown():
         """ Cleanup GPIO and SpiDev """
+        if __class__.spi:
+            __class__.spi.close()
         GPIO.cleanup()
-        BOARD.spi.close()
 
     @staticmethod
     def SpiDev():
@@ -84,17 +84,17 @@ class BOARD:
         :param spi_cs: The RPi SPI chip select to use: 0 or 1
         :rtype: SpiDev
         """
-        spi_bus=BOARD.SPI_BUS
-        spi_cs=BOARD.SPI_CS
-        BOARD.spi = spidev.SpiDev()
-        BOARD.spi.open(spi_bus, spi_cs)
-        BOARD.spi.max_speed_hz = 5000000    # SX127x can go up to 10MHz, pick half that to be safe
-        return BOARD.spi
+        spi_bus = __class__.SPI_BUS
+        spi_cs = __class__.SPI_CS
+        __class__.spi = spidev.SpiDev()
+        __class__.spi.open(spi_bus, spi_cs)
+        __class__.spi.max_speed_hz = 5000000    # SX127x can go up to 10MHz, pick half that to be safe
+        return __class__.spi
 
     @staticmethod
     def add_event_detect(dio_number, callback):
         """ Wraps around the GPIO.add_event_detect function
-        :param dio_number: DIO pin 0...5
+        :param dio_number: DIO pin 0..5
         :param callback: The function to call when the DIO triggers an IRQ.
         :return: None
         """
@@ -102,13 +102,13 @@ class BOARD:
 
     @staticmethod
     def add_events(cb_dio0, cb_dio1, cb_dio2, cb_dio3, cb_dio4, cb_dio5, switch_cb=None):
-        BOARD.add_event_detect(BOARD.DIO0, callback=cb_dio0)
-        BOARD.add_event_detect(BOARD.DIO1, callback=cb_dio1)
-        BOARD.add_event_detect(BOARD.DIO2, callback=cb_dio2)
-        BOARD.add_event_detect(BOARD.DIO3, callback=cb_dio3)
+        __class__.add_event_detect(__class__.DIO0, callback=cb_dio0)
+        __class__.add_event_detect(__class__.DIO1, callback=cb_dio1)
+        #        __class__.add_event_detect(__class__.DIO2, callback=cb_dio2)
+        #__class__.add_event_detect(__class__.DIO3, callback=cb_dio3)
         # the modtronix inAir9B does not expose DIO4 and DIO5
         if switch_cb is not None:
-            GPIO.add_event_detect(BOARD.SWITCH, GPIO.RISING, callback=switch_cb, bouncetime=300)
+            GPIO.add_event_detect(__class__.SWITCH, GPIO.RISING, callback=switch_cb, bouncetime=300)
 
     @staticmethod
     def led_on(value=1):
@@ -117,7 +117,7 @@ class BOARD:
         :return: value
         :rtype : int
         """
-        GPIO.output(BOARD.LED, value)
+        GPIO.output(__class__.LED, value)
         return value
 
     @staticmethod
@@ -125,7 +125,7 @@ class BOARD:
         """ Switch LED off
         :return: 0
         """
-        GPIO.output(BOARD.LED, 0)
+        GPIO.output(__class__.LED, 0)
         return 0
     
     @staticmethod
@@ -133,9 +133,9 @@ class BOARD:
         """ manual reset
         :return: 0
         """
-        GPIO.output(BOARD.RST, 0)
+        GPIO.output(__class__.RST, 0)
         time.sleep(.01)
-        GPIO.output(BOARD.RST, 1)
+        GPIO.output(__class__.RST, 1)
         time.sleep(.01)
         return 0
 
@@ -143,67 +143,64 @@ class BOARD:
     def blink(time_sec, n_blink):
         if n_blink == 0:
             return
-        BOARD.led_on()
+        __class__.led_on()
         for i in range(n_blink):
             time.sleep(time_sec)
-            BOARD.led_off()
+            __class__.led_off()
             time.sleep(time_sec)
-            BOARD.led_on()
-        BOARD.led_off()
-        
+            __class__.led_on()
+        __class__.led_off()
 
-        
-        
-        
-# BOARD2 configuration here -----------------------------------------------------------------------------
-class BOARD2:
+
+
+# 868MHz
+class BOARD_868:
     """ Board2 initialisation/teardown and pin configuration is kept here.
         Also, information about the RF module is kept here.
         This is the Raspberry Pi board with one LED and a Ra-02 Lora.
     """
     # Note that the BCOM numbering for the GPIOs is used.
-    DIO0 = 16   # RaspPi GPIO 23
-    DIO1 = 12   # RaspPi GPIO 24                                                                                         
-    DIO2 = 17   # RaspPi GPIO 25
-    DIO3 = 18   # RaspPi GPIO 5
-    RST  = 6   # RaspPi GPIO 6
-    LED  = 20   # RaspPi GPIO 19 connects to the LED and a resistor (1kohm or 330ohm)
-    #SWITCH = 4  # RaspPi GPIO 4 connects to a switch - not necessary
+    DIO0 = 16   # RaspPi GPIO16
+    DIO1 = 12   # RaspPi GPIO12
+    DIO2 = 20   # RaspPi GPIO20
+    DIO3 = 21   # RaspPi GPIO21
+    RST  = 6   # RaspPi GPIO6
+    LED  = 19   # RaspPi GPIO19 connects to the LED and a resistor (1kohm or 330ohm)
+    #SWITCH = 4  # RaspPi GPIO4 connects to a switch - not necessary
 
     # The spi object is kept here
     spi = None
-    SPI_BUS=0
-    SPI_CS=1
+    SPI_BUS = 0
+    SPI_CS = 1
     
     # tell pySX127x here whether the attached RF module uses low-band (RF*_LF pins) or high-band (RF*_HF pins).
     # low band (called band 1&2) are 137-175 and 410-525
     # high band (called band 3) is 862-1020
-    low_band = True
+    low_band = False
 
     @staticmethod
     def setup():
-        """ Configure the Raspberry GPIOs
-        :rtype : None
-        """
+        """Configure the Raspberry GPIOs"""
         GPIO.setmode(GPIO.BCM)
         # LED
-        GPIO.setup(BOARD2.LED, GPIO.OUT)
-        GPIO.setup(BOARD2.RST, GPIO.OUT)
-        GPIO.output(BOARD2.LED, 0)
-        GPIO.output(BOARD2.RST, 1)
+        GPIO.setup(__class__.LED, GPIO.OUT)
+        GPIO.setup(__class__.RST, GPIO.OUT)
+        GPIO.output(__class__.LED, 0)
+        GPIO.output(__class__.RST, 1)
         # switch
-        #GPIO.setup(BOARD2.SWITCH, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) 
+        #GPIO.setup(__class__.SWITCH, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) 
         # DIOx
-        for gpio_pin in [BOARD2.DIO0, BOARD2.DIO1, BOARD2.DIO2, BOARD2.DIO3]:
+        for gpio_pin in [__class__.DIO0, __class__.DIO1]:
             GPIO.setup(gpio_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        # blink 2 times to signal the BOARD2 is set up
-        BOARD2.blink(.1, 2)
+        # blink 2 times to signal the __class__. is set up
+        __class__.blink(.1, 2)
 
     @staticmethod
     def teardown():
         """ Cleanup GPIO and SpiDev """
+        if __class__.spi:
+            __class__.spi.close()
         GPIO.cleanup()
-        BOARD2.spi.close()
 
     @staticmethod
     def SpiDev():
@@ -213,17 +210,17 @@ class BOARD2:
         :param spi_cs: The RPi SPI chip select to use: 0 or 1
         :rtype: SpiDev
         """
-        spi_bus=BOARD2.SPI_BUS
-        spi_cs=BOARD2.SPI_CS
-        BOARD2.spi = spidev.SpiDev()
-        BOARD2.spi.open(spi_bus, spi_cs)
-        BOARD2.spi.max_speed_hz = 5000000    # SX127x can go up to 10MHz, pick half that to be safe
-        return BOARD2.spi
+        spi_bus = __class__.SPI_BUS
+        spi_cs = __class__.SPI_CS
+        __class__.spi = spidev.SpiDev()
+        __class__.spi.open(spi_bus, spi_cs)
+        __class__.spi.max_speed_hz = 5000000    # SX127x can go up to 10MHz, pick half that to be safe
+        return __class__.spi
 
     @staticmethod
     def add_event_detect(dio_number, callback):
         """ Wraps around the GPIO.add_event_detect function
-        :param dio_number: DIO pin 0...5
+        :param dio_number: DIO pin 0..5
         :param callback: The function to call when the DIO triggers an IRQ.
         :return: None
         """
@@ -231,13 +228,13 @@ class BOARD2:
 
     @staticmethod
     def add_events(cb_dio0, cb_dio1, cb_dio2, cb_dio3, cb_dio4, cb_dio5, switch_cb=None):
-        BOARD2.add_event_detect(BOARD2.DIO0, callback=cb_dio0)
-        BOARD2.add_event_detect(BOARD2.DIO1, callback=cb_dio1)
-        BOARD2.add_event_detect(BOARD2.DIO2, callback=cb_dio2)
-        BOARD2.add_event_detect(BOARD2.DIO3, callback=cb_dio3)
+        __class__.add_event_detect(__class__.DIO0, callback=cb_dio0)
+        __class__.add_event_detect(__class__.DIO1, callback=cb_dio1)
+        __class__.add_event_detect(__class__.DIO2, callback=cb_dio2)
+        __class__.add_event_detect(__class__.DIO3, callback=cb_dio3)
         # the modtronix inAir9B does not expose DIO4 and DIO5
         if switch_cb is not None:
-            GPIO.add_event_detect(BOARD2.SWITCH, GPIO.RISING, callback=switch_cb, bouncetime=300)
+            GPIO.add_event_detect(__class__.SWITCH, GPIO.RISING, callback=switch_cb, bouncetime=300)
 
     @staticmethod
     def led_on(value=1):
@@ -246,7 +243,7 @@ class BOARD2:
         :return: value
         :rtype : int
         """
-        GPIO.output(BOARD2.LED, value)
+        GPIO.output(__class__.LED, value)
         return value
 
     @staticmethod
@@ -254,7 +251,7 @@ class BOARD2:
         """ Switch LED off
         :return: 0
         """
-        GPIO.output(BOARD2.LED, 0)
+        GPIO.output(__class__.LED, 0)
         return 0
     
     @staticmethod
@@ -262,9 +259,9 @@ class BOARD2:
         """ manual reset
         :return: 0
         """
-        GPIO.output(BOARD2.RST, 0)
+        GPIO.output(__class__.RST, 0)
         time.sleep(.01)
-        GPIO.output(BOARD2.RST, 1)
+        GPIO.output(__class__.RST, 1)
         time.sleep(.01)
         return 0
 
@@ -272,10 +269,11 @@ class BOARD2:
     def blink(time_sec, n_blink):
         if n_blink == 0:
             return
-        BOARD2.led_on()
+        __class__.led_on()
         for i in range(n_blink):
             time.sleep(time_sec)
-            BOARD2.led_off()
+            __class__.led_off()
             time.sleep(time_sec)
-            BOARD2.led_on()
-        BOARD2.led_off()
+            __class__.led_on()
+        __class__.led_off()
+
