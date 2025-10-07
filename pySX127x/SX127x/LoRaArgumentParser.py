@@ -39,7 +39,7 @@ class LoRaArgumentParser(argparse.ArgumentParser):
     """
 
     bw_lookup = dict(BW7_8=0, BW10_4=1, BW15_6=2, BW20_8=3, BW31_25=4, BW41_7=5, BW62_5=6, BW125=7, BW250=8, BW500=9)
-    cr_lookup = dict(CR4_5=1, CR4_6=2,CR4_7=3,CR4_8=4)
+    cr_lookup = dict(CR4_5=1, CR4_6=2, CR4_7=3, CR4_8=4)
 
     def __init__(self, description):
         argparse.ArgumentParser.__init__(self, description=description)
@@ -56,7 +56,7 @@ class LoRaArgumentParser(argparse.ArgumentParser):
         self.add_argument('--preamble', '-p', dest='preamble', default=8, action="store", type=int,
                           help="Preamble length. Default is 8.")
 
-    def parse_args(self, lora):
+    def parse_args(self):
         """ Parse the args, perform some sanity checks and configure the LoRa accordingly.
         :param lora: Reference to LoRa object
         :return: args
@@ -67,12 +67,13 @@ class LoRaArgumentParser(argparse.ArgumentParser):
         # some sanity checks
         assert(args.bw is not None)
         assert(args.coding_rate is not None)
-        assert(args.sf >=6 and args.sf <= 12)
+        assert(args.sf >= 6 and args.sf <= 12)
         # set the LoRa object
-        lora.set_freq(args.freq)
-        lora.set_preamble(args.preamble)
-        lora.set_spreading_factor(args.sf)
-        lora.set_bw(args.bw)
-        lora.set_coding_rate(args.coding_rate)
-        lora.set_ocp_trim(args.ocp)
+        # lora.set_freq(args.freq)
+        # lora.set_preamble(args.preamble)
+        # lora.set_spreading_factor(args.sf)
+        # lora.set_bw(args.bw)
+        # lora.set_coding_rate(args.coding_rate)
+        # lora.set_ocp_trim(args.ocp)
+        #
         return args

@@ -23,9 +23,8 @@
 
 import sys
 from time import sleep
-from SX127x.LoRa import MODE, LoRa868 as LoRa 
+from SX127x.LoRa import MODE, LoRa
 from SX127x.LoRaArgumentParser import LoRaArgumentParser
-from SX127x.board_config import BOARD
 
 parser = LoRaArgumentParser("Continous LoRa receiver.")
 
@@ -33,10 +32,7 @@ parser = LoRaArgumentParser("Continous LoRa receiver.")
 class LoRaRcvCont(LoRa):
 
     def __init__(self, verbose=False):
-        super(LoRaRcvCont, self).__init__(verbose)
-
-        self.set_mode(MODE.SLEEP)
-        self.set_dio_mapping([0] * 6)
+        super(LoRaRcvCont, self).__init__(verbose, do_calibration=True)
 
     def on_rx_done(self):
         self.board.led_on()
@@ -84,11 +80,21 @@ class LoRaRcvCont(LoRa):
             sys.stdout.write("\r%d %d %d" % (rssi_value, status['rx_ongoing'], status['modem_clear']))
 
 
+args = parser.parse_args()
 lora = LoRaRcvCont(verbose=False)
-args = parser.parse_args(lora)
+lora.initialize(args.freq)
+lora.set_dio_mapping([0] * 6)
+
+#lora.set_freq(args.freq)
+lora.set_preamble(args.preamble)
+lora.set_spreading_factor(args.sf)
+lora.set_bw(args.bw)
+lora.set_coding_rate(args.coding_rate)
+lora.set_ocp_trim(args.ocp)
 
 lora.set_mode(MODE.STDBY)
 lora.set_pa_config(pa_select=1)
+
 #lora.set_rx_crc(True)
 #lora.set_coding_rate(CODING_RATE.CR4_6)
 #lora.set_pa_config(max_power=0, output_power=0)

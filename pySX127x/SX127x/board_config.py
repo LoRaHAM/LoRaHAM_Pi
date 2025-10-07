@@ -49,8 +49,8 @@ class BOARD:
             # low band (called band 1&2) are 137-175 and 410-525
             # high band (called band 3) is 862-1020
             self.low_band = True
+
         elif freq == "868":
-            # Note that the BCOM numbering for the GPIOs is used.
             self.DIO0 = 16
             self.DIO1 = 12
             self.DIO2 = 20

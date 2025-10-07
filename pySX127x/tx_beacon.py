@@ -24,7 +24,7 @@
 
 import sys
 from time import sleep
-from SX127x.LoRa import MODE, LoRa868 as LoRa
+from SX127x.LoRa import MODE, LoRa
 from SX127x.LoRaArgumentParser import LoRaArgumentParser
 
 parser = LoRaArgumentParser("A simple LoRa beacon")
@@ -38,8 +38,6 @@ class LoRaBeacon(LoRa):
 
     def __init__(self, verbose=False):
         super(LoRaBeacon, self).__init__(verbose)
-        self.set_mode(MODE.SLEEP)
-        self.set_dio_mapping([1,0,0,0,0,0])
 
     def on_rx_done(self):
         print("\nRxDone")
@@ -95,8 +93,10 @@ class LoRaBeacon(LoRa):
         while True:
             sleep(1)
 
+args = parser.parse_args()
 lora = LoRaBeacon(verbose=False)
-args = parser.parse_args(lora)
+lora.initialize(args.freq)
+lora.set_dio_mapping([1,0,0,0,0,0])
 
 lora.set_pa_config(pa_select=1)
 #lora.set_rx_crc(True)
