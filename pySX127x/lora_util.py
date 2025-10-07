@@ -26,7 +26,7 @@ from SX127x.LoRa import *
 from SX127x.board_config import BOARD
 import argparse
 
-BOARD.setup()
+board = BOARD("433")
 
 parser = argparse.ArgumentParser(description='LoRa utility functions')
 parser.add_argument('--dump', '-d', dest='dump', default=False, action="store_true", help="dump all registers")
@@ -46,4 +46,4 @@ if args.dump:
 else:
     print(lora)
 
-BOARD.teardown()
+board.teardown()

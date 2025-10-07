@@ -23,7 +23,7 @@
 
 import sys
 from .constants import *
-from .board_config import BOARD, BOARD2
+from .board_config import BOARD 
 
 
 ################################################## Some utility functions ##############################################
@@ -75,8 +75,6 @@ def setter(register_address):
 ############################################### Definition of the LoRa class ###########################################
 
 class LoRa(object):
-
-    spi = BOARD.SpiDev()              # init and get the baord's SPI
     mode = None                       # the mode is backed up here
     backup_registers = []
     verbose = True
@@ -90,9 +88,11 @@ class LoRa(object):
         :param calibration_freq: call rx_chain_calibration with this parameter. Default is 868
         :param do_calibration: Call rx_chain_calibration, default is False.
         """
+        self.board = BOARD("868")
+        self.spi = self.board.SpiDev()
         self.verbose = verbose
         # set the callbacks for DIO0..5 IRQs.
-        BOARD.add_events(self._dio0, self._dio1, self._dio2, self._dio3, self._dio4, self._dio5)
+        self.board.add_events(self._dio0, self._dio1, self._dio2, self._dio3, self._dio4, self._dio5)
         # set mode to sleep and read all registers
         self.set_mode(MODE.SLEEP)
         self.backup_registers = self.get_all_registers()
@@ -493,11 +493,11 @@ class LoRa(object):
 
     def get_pkt_rssi_value(self):
         v = self.spi.xfer([REG.LORA.PKT_RSSI_VALUE, 0])[1]
-        return v - (164 if BOARD.low_band else 157)     # See datasheet 5.5.5. p. 87
+        return v - (164 if self.board.low_band else 157)     # See datasheet 5.5.5. p. 87
 
     def get_rssi_value(self):
         v = self.spi.xfer([REG.LORA.RSSI_VALUE, 0])[1]
-        return v - (164 if BOARD.low_band else 157)     # See datasheet 5.5.5. p. 87
+        return v - (164 if self.board.low_band else 157)     # See datasheet 5.5.5. p. 87
 
     def get_hop_channel(self):
         v = self.spi.xfer([REG.LORA.HOP_CHANNEL, 0])[1]
@@ -967,7 +967,6 @@ class LoRa(object):
 
 class LoRa2(object):
 
-    spi = BOARD2.SpiDev()              # init and get the baord's SPI
     mode = None                       # the mode is backed up here
     backup_registers = []
     verbose = True
@@ -981,9 +980,11 @@ class LoRa2(object):
         :param calibration_freq: call rx_chain_calibration with this parameter. Default is 868
         :param do_calibration: Call rx_chain_calibration, default is False.
         """
+        self.board = BOARD("433")
+        self.spi = self.board.SpiDev()
         self.verbose = verbose
         # set the callbacks for DIO0..5 IRQs.
-        BOARD2.add_events(self._dio0, self._dio1, self._dio2, self._dio3, self._dio4, self._dio5)
+        self.board.add_events(self._dio0, self._dio1, self._dio2, self._dio3, self._dio4, self._dio5)
         # set mode to sleep and read all registers
         self.set_mode(MODE.SLEEP)
         self.backup_registers = self.get_all_registers()
@@ -1384,11 +1385,11 @@ class LoRa2(object):
 
     def get_pkt_rssi_value(self):
         v = self.spi.xfer([REG.LORA.PKT_RSSI_VALUE, 0])[1]
-        return v - (164 if BOARD2.low_band else 157)     # See datasheet 5.5.5. p. 87
+        return v - (164 if self.board.low_band else 157)     # See datasheet 5.5.5. p. 87
 
     def get_rssi_value(self):
         v = self.spi.xfer([REG.LORA.RSSI_VALUE, 0])[1]
-        return v - (164 if BOARD2.low_band else 157)     # See datasheet 5.5.5. p. 87
+        return v - (164 if self.board.low_band else 157)     # See datasheet 5.5.5. p. 87
 
     def get_hop_channel(self):
         v = self.spi.xfer([REG.LORA.HOP_CHANNEL, 0])[1]
