@@ -9,6 +9,7 @@ First code for the LoRaHAM Pi hardware | https://www.loraham.de/produkt/loraham-
 Raspberry Pi 3 Image for Meshtastic (8 GB SD-Card): [Meshtastic 433 MHz 1 Watt](https://www.loraham.de/downloads/Meshtastic_433_LoRaHAM_Pi.img)
 
 ![LoRaHAM_Pi](https://github.com/LoRaHAM/LoRaHAM_Pi/blob/main/LoRaHAM_P1_3.jpg?raw=true)
+![LoRaHAM_Pi Pinout](https://github.com/LoRaHAM/LoRaHAM_Pi/blob/main/LoRaHAM_Pi_V106_brd.png?raw=true)
 
 * Raspberry Pi 3/4/5
 * Raspbian Image on RPi
