@@ -75,6 +75,7 @@ LoRaHAM Pi ist ein Raspberry Pi Hardware-Upgrade-Projekt für Funkamateure, um L
 Erster Code für die LoRaHAM Pi Hardware | https://www.loraham.de/produkt/loraham-pi-now/
 
 ![LoRaHAM_Pi](https://github.com/LoRaHAM/LoRaHAM_Pi/blob/main/LoRaHAM_P1_3.jpg?raw=true)
+![LoRaHAM_Pi Pinout](https://github.com/LoRaHAM/LoRaHAM_Pi/blob/main/LoRaHAM_Pi_V106_brd.png?raw=true)
 
 * Raspberry Pi 3/4/5
 * Raspbian Image auf RPi
