@@ -4,7 +4,7 @@
 
 LoRaHAM Pi is a Raspberry Pi hardware upgrade project for radio amateurs to enable LoRa with high transmission power and thus long range on a single board computer.
 
-First code for the LoRaHAM Pi hardware | https://www.loraham.de/produkt/loraham-pi-now/
+First code for the LoRaHAM Pi hardware | https://www.loraham.de/produkt/loraham-pi/
 
 Raspberry Pi 3 Image for Meshtastic (8 GB SD-Card): [Meshtastic 433 MHz 1 Watt](https://www.loraham.de/downloads/Meshtastic_433_LoRaHAM_Pi.img)
 
@@ -79,7 +79,7 @@ This project is licensed under **GNU GPL v3** with additional commercial restric
 
 LoRaHAM Pi ist ein Raspberry Pi Hardware-Upgrade-Projekt für Funkamateure, um LoRa mit hoher Sendeleistung und damit großer Reichweite auf einem Einplatinencomputer zu ermöglichen.
 
-Erster Code für die LoRaHAM Pi Hardware | https://www.loraham.de/produkt/loraham-pi-now/
+Erster Code für die LoRaHAM Pi Hardware | https://www.loraham.de/produkt/loraham-pi/
 
 ![LoRaHAM_Pi](https://github.com/LoRaHAM/LoRaHAM_Pi/blob/main/LoRaHAM_P1_3.jpg?raw=true)
 ![LoRaHAM_Pi Pinout](https://github.com/LoRaHAM/LoRaHAM_Pi/blob/main/LoRaHAM_Pi_V106_brd.png?raw=true)
