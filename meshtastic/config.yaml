@@ -5,13 +5,12 @@
 ### Uncomment the block that corresponds to your hardware
 ### Including the "Module:" line!
 ---
-
 owner: LoRaHAM_Pi
 ownerShort: LHPi
 
 Lora:
 # 868 MHz
-  Module: "RF98"
+  Module: RF95
   CS: 7
   IRQ: 16      # DIO0
   Reset: 6
