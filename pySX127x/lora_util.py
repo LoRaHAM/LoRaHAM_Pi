@@ -23,16 +23,13 @@
 
 
 from SX127x.LoRa import *
-from SX127x.board_config import BOARD
 import argparse
-
-BOARD.setup()
 
 parser = argparse.ArgumentParser(description='LoRa utility functions')
 parser.add_argument('--dump', '-d', dest='dump', default=False, action="store_true", help="dump all registers")
 args = parser.parse_args()
 
-lora = LoRa(verbose=False)
+lora = LoRa868(verbose=True)
 
 if args.dump:
 
@@ -46,4 +43,3 @@ if args.dump:
 else:
     print(lora)
 
-BOARD.teardown()
